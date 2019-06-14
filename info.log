@@ -1,0 +1,10 @@
+{"message":"Bookmark with id id=1 not found.","level":"error"}
+{"message":"Bookmark with id ea146829-6715-432f-97e8-92713bf92fe2 created","level":"info"}
+{"message":"Bookmark with id id=ea146829-6715-432f-97e8-92713bf92fe2 not found.","level":"error"}
+{"message":"Bookmark with id undefined not found.","level":"error"}
+{"message":"Bookmark with id undefined not found.","level":"error"}
+{"message":"Bookmark with id undefined not found.","level":"error"}
+{"message":"Bookmark with id undefined not found.","level":"error"}
+{"message":"Bookmark with id undefined not found.","level":"error"}
+{"message":"Bookmark with id undefined not found.","level":"error"}
+{"message":"Bookmark with id 2 deleted.","level":"info"}
