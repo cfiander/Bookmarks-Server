@@ -8,3 +8,5 @@
 {"message":"Bookmark with id undefined not found.","level":"error"}
 {"message":"Bookmark with id undefined not found.","level":"error"}
 {"message":"Bookmark with id 2 deleted.","level":"info"}
+{"message":"Unauthorized request to path: /bookmarks","level":"error"}
+{"message":"Unauthorized request to path: /bookmarks","level":"error"}
