@@ -10,20 +10,17 @@ const bookmarkRouter = require('./bookmark/bookmark-router')
 const app = express()
 
 
-const morganOption = (NODE_ENV === 'production')
-  ? 'common' //switch this to common from tiny 
-  : 'dev'; //switched this from common to dev
-
-app.use(morgan(morganOption))
+app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
+  skip: () => NODE_ENV === 'test'
+}))
 app.use(cors())
 app.use(helmet())
 
 app.use(function validateBearerToken(req, res, next) {
-  const apiToken = process.env.API_TOKEN
   const authToken = req.get('Authorization')
+  logger.error(`Unauthorized request to path: ${req.path}`)
 
-  if (!authToken || authToken.split(' ')[1] !== apiToken) {
-    logger.error(`Unauthorized request to path: ${req.path}`);
+  if (!authToken || authToken.split(' ')[1] !== API_TOKEN) {
     return res.status(401).json({ error: 'Unauthorized request' })
   }
   // move to the next middleware
