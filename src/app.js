@@ -29,6 +29,9 @@ app.use(function validateBearerToken(req, res, next) {
 
 app.use(bookmarkRouter)
 
+app.post('/articles', (req, res, next) => {
+  res.status(201).send('stuff')
+})
 
 app.get('/', (req, res) => {
   res.send('Hello, world!')

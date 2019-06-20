@@ -48,20 +48,20 @@ describe.only('Bookmarks Endpoints', function() {
         })
      })
   
-//   describe(`Unauthorized requests`, () => {
-//     it(`responds with 401 Unauthorized for GET /bookmarks`, () => {
-//       return supertest(app)
-//         .get('/bookmarks')
-//         .expect(401, { error: 'Unauthorized request' })
-//     })
+  describe(`Unauthorized requests`, () => {
+    it(`responds with 401 Unauthorized for GET /bookmarks`, () => {
+      return supertest(app)
+        .get('/bookmarks')
+        .expect(401, { error: 'Unauthorized request' })
+    })
 
-//     it(`responds with 401 Unauthorized for GET /bookmarks/:id`, () => {
-//       const secondBookmark = store.bookmarks[1]
-//       return supertest(app)
-//         .get(`/bookmarks/${secondBookmark.id}`)
-//         .expect(401, { error: 'Unauthorized request' })
-//     })
-// })
+    it(`responds with 401 Unauthorized for GET /bookmarks/:id`, () => {
+      const secondBookmark = store.bookmarks[1]
+      return supertest(app)
+        .get(`/bookmarks/${secondBookmark.id}`)
+        .expect(401, { error: 'Unauthorized request' })
+    })
+})
 
   describe('GET /bookmarks/:id', () => {
     context(`Given no bookmarks`, () => {
@@ -94,4 +94,29 @@ describe.only('Bookmarks Endpoints', function() {
       })
     })
   })
+  describe.only(`POST /bookmakrs`, () => {
+   it(`creates a bookmark, responding with 201 and the new article`,  function() {
+    const newBookmark = {
+        title: 'test-title',
+        url: 'https://test.com',
+        description: 'test description',
+        rating: 1,
+      }   
+    return supertest(app)
+    .post(`/bookmarks`)
+    .send(newBookmark)
+    .set('Authorization', `Bearer ${process.env.API_TOKEN}`)
+    .expect(201)
+    .expect(res => {
+      expect(res.body.title).to.eql(newBookmark.title)
+      expect(res.body.url).to.eql(newBookmark.url)
+      expect(res.body.description).to.eql(newBookmark.description)
+      expect(res.body.rating).to.eql(newBookmark.rating)
+      expect(res.body.id).to.be.a('string')
+    })
+    .then(res => {
+      expect(store.bookmarks[store.bookmarks.length - 1]).to.eql(res.body)
+    })
+ })
+})
 })

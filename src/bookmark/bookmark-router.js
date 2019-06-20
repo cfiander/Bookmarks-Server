@@ -6,13 +6,13 @@ const bookmarkRouter = express.Router()
 const bookmarksStore = require('../store')
 const bodyParser = express.json()
 
-// const serializeBookmark = bookmark => ({
-//     id: bookmark.id,
-//     title: bookmark.title,
-//     url: bookmark.url,
-//     description: bookmark.description,
-//     rating: Number(bookmark.rating),
-//   })
+const serializeBookmark = bookmark => ({
+  id: bookmark.id,
+  title: bookmark.title,
+  url: bookmark.url,
+  description: bookmark.description,
+  rating: Number(bookmark.rating),
+})
 
 bookmarkRouter
     .route('/bookmarks') 
@@ -24,6 +24,27 @@ bookmarkRouter
     })
             .catch(next)
     })
+    .post(bodyParser, (req, res, next) => {
+      const db = req.app.get('db');
+      const { title, url, rating, description } = req.body;
+      const myRating = parseInt(rating);
+      const newBookmark = {
+        title,
+        url,
+        rating: myRating,
+        description
+      };
+      if (!title || !url || !rating || rating > 5 || rating < 1) {
+        logger.error('invalid bookmark');
+        return res.status(400).json({ message: 'Invalid Input' });
+      }
+      //Getting a 500 internal error or a can't set headers after they are already set.
+      BookmarksService.insertBookmark(db, newBookmark)
+        .then(bm => {
+          res.status(201).json(serializeBookmark(bm));
+        })
+        .catch(next);
+    });
     // .post(bodyParser, (req, res) => {
     //     const { title, url, description, rating } = req.body;
     //     if (!title) {
