@@ -8,7 +8,7 @@ const { NODE_ENV, API_TOKEN} = require('./config')
 const bookmarkRouter = require('./bookmark/bookmark-router')
 
 const app = express()
-
+const jsonParser = express.json()
 
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
   skip: () => NODE_ENV === 'test'
@@ -29,9 +29,6 @@ app.use(function validateBearerToken(req, res, next) {
 
 app.use(bookmarkRouter)
 
-app.post('/articles', (req, res, next) => {
-  res.status(201).send('stuff')
-})
 
 app.get('/', (req, res) => {
   res.send('Hello, world!')
